@@ -1,8 +1,8 @@
 import jwt, { Secret } from "jsonwebtoken";
 import { Response } from "express";
 
-const ACCESS_TOKEN_SECRET: Secret | undefined = process.env.ACCESS_TOKEN_SECRET;
-const REFRESH_TOKEN_SECRET: Secret | undefined = process.env.REFRESH_TOKEN_SECRET;
+const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
+const REFRESH_TOKEN_SECRET= process.env.REFRESH_TOKEN_SECRET;
 const ACCESS_TOKEN_EXPIRY = process.env.ACCESS_TOKEN_EXPIRY || "15m";
 const REFRESH_TOKEN_EXPIRY = process.env.REFRESH_TOKEN_EXPIRY || "7d";
 
