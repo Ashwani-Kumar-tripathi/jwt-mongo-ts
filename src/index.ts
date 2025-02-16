@@ -38,7 +38,7 @@ declare global {
 app.use(helmet());
 //app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
 app.use(express.json());
-app.use("/auth", authRouter);
+app.use(authRouter);
 
 app.use(cookieParser());
 app.use("/users", authenticate, userRouter);
