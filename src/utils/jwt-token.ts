@@ -2,7 +2,7 @@ import jwt, { Secret } from "jsonwebtoken";
 import { Response } from "express";
 
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
-const REFRESH_TOKEN_SECRET= process.env.REFRESH_TOKEN_SECRET;
+const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
 const ACCESS_TOKEN_EXPIRY = process.env.ACCESS_TOKEN_EXPIRY || "15m";
 const REFRESH_TOKEN_EXPIRY = process.env.REFRESH_TOKEN_EXPIRY || "7d";
 
@@ -14,9 +14,13 @@ if (!ACCESS_TOKEN_SECRET || !REFRESH_TOKEN_SECRET) {
 const isProduction = process.env.NODE_ENV === "production";
 
 const generateAccessToken = (res: Response, userId: string) => {
-  const accessToken = jwt.sign({ userId }, ACCESS_TOKEN_SECRET as Secret, {
-    expiresIn: ACCESS_TOKEN_EXPIRY,
-  } as jwt.SignOptions);
+  const accessToken = jwt.sign(
+    { userId },
+    ACCESS_TOKEN_SECRET as Secret,
+    {
+      expiresIn: ACCESS_TOKEN_EXPIRY,
+    } as jwt.SignOptions
+  );
 
   res.cookie("access_token", accessToken, {
     httpOnly: true,
@@ -29,9 +33,13 @@ const generateAccessToken = (res: Response, userId: string) => {
 };
 
 const generateRefreshToken = (res: Response, userId: string) => {
-  const refreshToken = jwt.sign({ userId }, REFRESH_TOKEN_SECRET as Secret, {
-    expiresIn: REFRESH_TOKEN_EXPIRY,
-  } as jwt.SignOptions);
+  const refreshToken = jwt.sign(
+    { userId },
+    REFRESH_TOKEN_SECRET as Secret,
+    {
+      expiresIn: REFRESH_TOKEN_EXPIRY,
+    } as jwt.SignOptions
+  );
 
   res.cookie("refresh_token", refreshToken, {
     httpOnly: true,
@@ -40,7 +48,7 @@ const generateRefreshToken = (res: Response, userId: string) => {
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
 
-  return refreshToken; 
+  return refreshToken;
 };
 
 // Clear cookies on logout

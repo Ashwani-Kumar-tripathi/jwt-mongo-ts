@@ -8,13 +8,12 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import connectDB from "./connections/database";
 import { errorHandler } from "./middlewares/error-handler";
-import {authenticate, refreshAccessToken} from "./middlewares/auth-middleware";
+import {
+  authenticate,
+  refreshAccessToken,
+} from "./middlewares/auth-middleware";
 import authRouter from "./routes/auth-router";
 import userRouter from "./routes/user-router";
-
-console.log("ACCESS_TOKEN_SECRET:", process.env.ACCESS_TOKEN_SECRET);
-console.log("REFRESH_TOKEN_SECRET:", process.env.REFRESH_TOKEN_SECRET);
-
 
 const app = express();
 const port = process.env.PORT || 5000;

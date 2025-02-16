@@ -14,7 +14,11 @@ const verifyToken = (token: string, secret: string) => {
   }
 };
 
-const authenticate = async (req: Request, res: Response, next: NextFunction) => {
+const authenticate = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const token = req.cookies.access_token;
     if (!token) {
@@ -41,13 +45,21 @@ const authenticate = async (req: Request, res: Response, next: NextFunction) => 
   }
 };
 
-const refreshAccessToken = async (req: Request, res: Response, next: NextFunction) => {
+const refreshAccessToken = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const refreshToken = req.cookies.refresh_token;
     if (!refreshToken) throw new AuthenticationError("Refresh token not found");
 
-    const decoded = verifyToken(refreshToken, process.env.REFRESH_TOKEN_SECRET || "");
-    if (!decoded.userId) throw new AuthenticationError("Not authorized, userId not found");
+    const decoded = verifyToken(
+      refreshToken,
+      process.env.REFRESH_TOKEN_SECRET || ""
+    );
+    if (!decoded.userId)
+      throw new AuthenticationError("Not authorized, userId not found");
 
     const user = await User.findById(decoded.userId, "_id name email");
     if (!user) throw new AuthenticationError("Not authorized, user not found");
