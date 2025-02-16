@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import {
   generateAccessToken,
   generateRefreshToken,
-  setTokens,
   clearTokens,
 } from "../utils/jwt-token";
 import User from "../models/user-model";
@@ -20,9 +19,8 @@ const registerUser = async (req: Request, res: Response) => {
     const user =await User.create({ name, email, password });
 
     if (user) {
-      const accessToken = generateAccessToken(user._id as string);
-      const refreshToken = generateRefreshToken(user._id as string);
-      setTokens(res, accessToken, refreshToken);
+      const accessToken = generateAccessToken(res, user._id as string);
+      const refreshToken = generateRefreshToken(res, user._id as string);
   
       res.status(201).json({
         id: user._id,
@@ -43,10 +41,8 @@ const loginUser = async (req: Request, res: Response) => {
 
   if (user && user.comparePassword(password)) {
     
-    const accessToken = generateAccessToken(user._id as string);
-    const refreshToken = generateRefreshToken(user._id as string);
-
-    setTokens(res, accessToken, refreshToken);
+    const accessToken = generateAccessToken(res, user._id as string);
+    const refreshToken = generateRefreshToken(res, user._id as string);
 
     res.status(201).json({
       id: user._id,
@@ -76,8 +72,8 @@ const refreshAccessToken = async (req: Request, res: Response) => {
       process.env.REFRESH_TOKEN_SECRET || "refresh_secret"
     ) as { userId: string };
 
-    const newAccessToken = generateAccessToken(decoded.userId);
-    const newRefreshToken = generateRefreshToken(decoded.userId);
+    const newAccessToken = generateAccessToken(res, decoded.userId);
+    const newRefreshToken = generateRefreshToken(res, decoded.userId);
 
     res.cookie("access_token", newAccessToken, {
       httpOnly: true,

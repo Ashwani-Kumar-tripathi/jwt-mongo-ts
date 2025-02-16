@@ -4,7 +4,7 @@ import {
     registerUser,
     loginUser,
     logoutUser,
-    refreshAccessToken,
+    refreshAccessToken
   } from "../controllers/auth-controller";
 
   router.post("/register", registerUser);
